@@ -1,0 +1,4 @@
+external/
+build/
+test_results/
+.sconsign.dblite

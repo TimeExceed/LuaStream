@@ -1,0 +1,5 @@
+# -*- python -*-
+Import('env')
+
+env.Default(env.Install('$BUILD_DIR/test/', '#src/stream.lua'))
+env.Default(env.Install('$BUILD_DIR/test/', '#test/testa/testa.lua'))
