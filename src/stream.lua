@@ -85,7 +85,7 @@ function Stream.inspect(this, func)
     if func == nil then
         func = function(x)
             io.stderr:write('inspect ')
-            io.stderr:write(x)
+            io.stderr:write(tostring(x))
             io.stderr:write('\n')
         end
     end
