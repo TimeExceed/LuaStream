@@ -364,6 +364,40 @@ zip.shortest = testa.is(
     end,
     '0,0,0 0,1,1')
 
+local filter = {}
+
+filter.none = testa.is(
+    function()
+        local xs = stream.from_list({1,2,3})
+            :filter(function()
+                return false
+            end)
+            :collect()
+        return table.concat(xs, ',')
+    end,
+    '')
+
+filter.all = testa.is(
+    function()
+        local xs = stream.from_list({1,2,3})
+            :filter(function()
+                return true
+            end)
+            :collect()
+        return table.concat(xs, ',')
+    end,
+    '1,2,3')
+filter.gt1 = testa.is(
+    function()
+        local xs = stream.from_list({1,2})
+            :filter(function(x)
+                return x > 1
+            end)
+            :collect()
+        return table.concat(xs, ',')
+    end,
+    '2')
+
 testa.main({
     -- constructors --
     from_list = from_list,
@@ -382,5 +416,6 @@ testa.main({
     take = take,
     drop = drop,
     flatten = flatten,
+    filter = filter,
 })
 

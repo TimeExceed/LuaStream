@@ -210,6 +210,20 @@ function Stream.flatten(this)
     return setmetatable(res, Stream)
 end
 
+function Stream.filter(this, func)
+    local res = {
+        _stream = function()
+            local co = coroutine.create(this._stream)
+            loop(co, function(value)
+                if func(value) then
+                    coroutine.yield(value)
+                end
+            end)
+        end
+    }
+    return setmetatable(res, Stream)
+end
+
 local cons = {Stream = Stream}
 
 function cons.from_list(lst)
