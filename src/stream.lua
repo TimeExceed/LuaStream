@@ -105,8 +105,13 @@ function Stream.map(this, func)
     local res = {
         _stream = function()
             local co = coroutine.create(this._stream)
-            loop(co, function(value)
-                coroutine.yield(func(value))
+            loop(co, function(x)
+                local y = func(x)
+                assert(y ~= nil,
+                    string.format(
+                        'mapper should never return nil, on "%s"',
+                        x))
+                coroutine.yield(y)
             end)
         end
     }
