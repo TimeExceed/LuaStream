@@ -224,6 +224,25 @@ function Stream.filter(this, func)
     return setmetatable(res, Stream)
 end
 
+function Stream.take_while(this, pred)
+    local res = {
+        _stream = function()
+            local co = coroutine.create(this._stream)
+            while true do
+                local fin, value = coresume(co)
+                if fin then
+                    break
+                end
+                if not pred(value) then
+                    break
+                end
+                coroutine.yield(value)
+            end
+        end
+    }
+    return setmetatable(res, Stream)
+end
+
 local cons = {Stream = Stream}
 
 function cons.from_list(lst)

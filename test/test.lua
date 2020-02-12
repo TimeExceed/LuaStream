@@ -398,6 +398,29 @@ filter.gt1 = testa.is(
     end,
     '2')
 
+local take_while = {}
+
+take_while.none = testa.is(
+    function()
+        local xs = stream.from_list({})
+            :take_while(function(x)
+                return x > 0
+            end)
+            :collect()
+        return table.concat(xs, ',')
+    end,
+    '')
+take_while.positive = testa.is(
+    function()
+        local xs = stream.range(2, -3, -1)
+            :take_while(function(x)
+                return x > 0
+            end)
+            :collect()
+        return table.concat(xs, ',')
+    end,
+    '2,1')
+
 testa.main({
     -- constructors --
     from_list = from_list,
@@ -417,5 +440,6 @@ testa.main({
     drop = drop,
     flatten = flatten,
     filter = filter,
+    take_while = take_while,
 })
 
