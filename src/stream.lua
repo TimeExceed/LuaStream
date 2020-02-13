@@ -243,6 +243,20 @@ function Stream.take_while(this, pred)
     return setmetatable(res, Stream)
 end
 
+function Stream.enumerate(this)
+    local res = {
+        _stream = function()
+            local co = coroutine.create(this._stream)
+            local i = 1
+            loop(co, function(x)
+                coroutine.yield({i, x})
+                i = i + 1
+            end)
+        end
+    }
+    return setmetatable(res, Stream)
+end
+
 local cons = {Stream = Stream}
 
 function cons.from_list(lst)

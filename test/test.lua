@@ -421,6 +421,20 @@ take_while.positive = testa.is(
     end,
     '2,1')
 
+local enumerate = {}
+
+enumerate.normal = testa.is(
+    function()
+        local xs = stream.range(0, 3)
+            :enumerate()
+            :map(function(x)
+                return table.concat(x, ',')
+            end)
+            :collect()
+        return table.concat(xs, ' ')
+    end,
+    '1,0 2,1 3,2')
+
 testa.main({
     -- constructors --
     from_list = from_list,
@@ -441,5 +455,6 @@ testa.main({
     flatten = flatten,
     filter = filter,
     take_while = take_while,
+    enumerate = enumerate,
 })
 
